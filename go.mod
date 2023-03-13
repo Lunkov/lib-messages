@@ -1,4 +1,4 @@
-module github.com/Lunkov/messages
+module github.com/Lunkov/lib-messages
 
 go 1.19
 
