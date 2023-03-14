@@ -128,7 +128,7 @@ func (i *ReqUserRegisterToOrg) Hash() []byte {
   sha_512 := sha512.New()
   sha_512.Write([]byte(i.InviteToken + i.NodeUrl + i.Login + i.EMail + i.DisplayName + 
                        i.FirstName + i.MiddleName + i.LastName + 
-                       i.Country + i.Locality +
-                       string(i.PubKey)))
+                       i.Country + i.Locality))
+  sha_512.Write(i.PubKey)
   return sha_512.Sum(nil)
 }
