@@ -114,3 +114,9 @@ func (i *ReqUserInviteFromOrg) Unpack(msg string) bool {
 func NewReqUserRegisterToOrg() (*ReqUserRegisterToOrg) {
   return &ReqUserRegisterToOrg{}
 }
+
+func (i *ReqUserRegisterToOrg) Hash() []byte {
+  sha_512 := sha512.New()
+  sha_512.Write([]byte(i.InviteToken + i.NodeUrl + i.Login + i.EMail + i.DisplayName + string(i.PubKey)))
+  return sha_512.Sum(nil)
+}
