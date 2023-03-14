@@ -1,11 +1,6 @@
 package messages
 
 import (
-  "time"
-  "bytes"
-  "crypto/sha512"
-  "encoding/gob"
-  "encoding/base64"
 )
 
 // Information about Organization

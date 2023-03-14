@@ -32,7 +32,16 @@ type ReqUserRegisterToOrg struct {
   InviteToken   string          `json:"token"`
   Login         string          `json:"login"`
   EMail         string          `json:"email"`
+
   DisplayName   string          `json:"displayName"`
+  FirstName     string          `json:"first_name"`
+  MiddleName    string          `json:"middle_name"`
+  LastName      string          `json:"last_name"`
+
+  Country       string          `json:"country"`
+  Locality      string          `json:"locality"`
+  OrgUnit       string          `json:"unit"`
+
   PubKey        []byte          `json:"pubkey"`
   Sign          []byte          `json:"sign"`
 }
@@ -117,6 +126,9 @@ func NewReqUserRegisterToOrg() (*ReqUserRegisterToOrg) {
 
 func (i *ReqUserRegisterToOrg) Hash() []byte {
   sha_512 := sha512.New()
-  sha_512.Write([]byte(i.InviteToken + i.NodeUrl + i.Login + i.EMail + i.DisplayName + string(i.PubKey)))
+  sha_512.Write([]byte(i.InviteToken + i.NodeUrl + i.Login + i.EMail + i.DisplayName + 
+                       i.FirstName + i.MiddleName + i.LastName + 
+                       i.Country + i.Locality +
+                       string(i.PubKey)))
   return sha_512.Sum(nil)
 }
