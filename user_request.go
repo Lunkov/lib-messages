@@ -11,6 +11,7 @@ import (
 // Information about Organization
 type Request struct {
   Id            string          `json:"id"`
+  UserId        string          `json:"user_id"`
   Body          []byte          `json:"body"`
   CreatedAt     time.Time       `json:"created_at"`
   Sign          []byte          `json:"sign"`

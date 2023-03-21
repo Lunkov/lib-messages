@@ -7,6 +7,7 @@ import (
 type OrgInfo struct {
   Name          string          `json:"name"`
   Logo          string          `json:"logo"`
+  URL           string          `json:"url"`
 }
 
 func NewOrgInfo() *OrgInfo {

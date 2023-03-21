@@ -56,7 +56,7 @@ func NewDBUserInvite() *DBUserInvite {
   return &DBUserInvite{}
 }
 
-func (i *DBUserInvite) Init(token string, login string, email string) {
+func (i *DBUserInvite) Init(token string, login string, email string, role string) {
   i.InviteToken = token
   i.Login = login
   i.EMail = email
@@ -65,7 +65,7 @@ func (i *DBUserInvite) Init(token string, login string, email string) {
 
 func (i *DBUserInvite) Hash() []byte {
   sha_512 := sha512.New()
-  sha_512.Write([]byte(i.InviteToken + i.Login + i.EMail + i.UpdatedAt.String()))
+  sha_512.Write([]byte(i.InviteToken + i.Login + i.EMail + i.Role + i.UpdatedAt.String()))
   return sha_512.Sum(nil)
 }
 
