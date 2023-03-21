@@ -23,6 +23,7 @@ type ReqUserInviteFromOrg struct {
   InviteToken   string          `json:"token"`
   Login         string          `json:"login"`
   EMail         string          `json:"email"`
+  Role          string          `json:"role"`
   UpdatedAt     time.Time       `json:"updated_at"`
   Sign          []byte          `json:"sign"`
 }
@@ -41,6 +42,7 @@ type ReqUserRegisterToOrg struct {
   Country       string          `json:"country"`
   Locality      string          `json:"locality"`
   OrgUnit       string          `json:"unit"`
+  Role          string          `json:"role"`
 
   PubKey        []byte          `json:"pubkey"`
   Sign          []byte          `json:"sign"`
@@ -84,12 +86,13 @@ func (i *ReqUserInviteFromOrg) Init(nodeUrl string, dbui *DBUserInvite) {
   i.InviteToken = dbui.InviteToken
   i.Login = dbui.Login 
   i.EMail = dbui.EMail
+  i.Role = dbui.Role
   i.UpdatedAt = dbui.UpdatedAt
 }
 
 func (i *ReqUserInviteFromOrg) Hash() []byte {
   sha_512 := sha512.New()
-  sha_512.Write([]byte(i.InviteToken + i.NodeUrl + i.Login + i.EMail + i.UpdatedAt.String()))
+  sha_512.Write([]byte(i.InviteToken + i.NodeUrl + i.Login + i.EMail + i.Role + i.UpdatedAt.String()))
   return sha_512.Sum(nil)
 }
 
@@ -127,7 +130,7 @@ func NewReqUserRegisterToOrg() (*ReqUserRegisterToOrg) {
 func (i *ReqUserRegisterToOrg) Hash() []byte {
   sha_512 := sha512.New()
   sha_512.Write([]byte(i.InviteToken + i.NodeUrl + i.Login + i.EMail + i.DisplayName + 
-                       i.FirstName + i.MiddleName + i.LastName + 
+                       i.FirstName + i.MiddleName + i.LastName + i.Role +
                        i.Country + i.Locality))
   sha_512.Write(i.PubKey)
   return sha_512.Sum(nil)
