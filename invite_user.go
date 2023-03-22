@@ -10,6 +10,7 @@ import (
 
 // Invite User to Organization
 type DBUserInvite struct {
+  Version       string          `json:"version"     gorm:"column:version"`
   InviteToken   string          `json:"token"       gorm:"column:invite_token"`
   Login         string          `json:"login"       gorm:"column:login"`
   Role          string          `json:"role"        gorm:"column:role"`
@@ -19,6 +20,7 @@ type DBUserInvite struct {
 }
 
 type ReqUserInviteFromOrg struct {
+  Version       string          `json:"version"`
   NodeUrl       string          `json:"url"`
   InviteToken   string          `json:"token"`
   Login         string          `json:"login"`
@@ -29,6 +31,7 @@ type ReqUserInviteFromOrg struct {
 }
 
 type ReqUserRegisterToOrg struct {
+  Version       string          `json:"version"`
   NodeUrl       string          `json:"url"`
   InviteToken   string          `json:"token"`
   Login         string          `json:"login"`
@@ -55,7 +58,7 @@ type ReqUserRegisterToOrg struct {
  */
  
 func NewDBUserInvite() *DBUserInvite {
-  return &DBUserInvite{}
+  return &DBUserInvite{Version: "1"}
 }
 
 func (i *DBUserInvite) Init(token string, login string, email string, role string) {
@@ -67,7 +70,7 @@ func (i *DBUserInvite) Init(token string, login string, email string, role strin
 
 func (i *DBUserInvite) Hash() []byte {
   sha_512 := sha512.New()
-  sha_512.Write([]byte(i.InviteToken + i.Login + i.EMail + i.Role + i.UpdatedAt.String()))
+  sha_512.Write([]byte(i.InviteToken + i.Version + i.Login + i.EMail + i.Role + i.UpdatedAt.String()))
   return sha_512.Sum(nil)
 }
 
@@ -78,7 +81,7 @@ func (i *DBUserInvite) Hash() []byte {
  */
 
 func NewReqUserInviteFromOrg() (*ReqUserInviteFromOrg) {
-  return &ReqUserInviteFromOrg{}
+  return &ReqUserInviteFromOrg{Version: "1"}
 }
 
 func (i *ReqUserInviteFromOrg) Init(nodeUrl string, dbui *DBUserInvite) {
@@ -92,7 +95,7 @@ func (i *ReqUserInviteFromOrg) Init(nodeUrl string, dbui *DBUserInvite) {
 
 func (i *ReqUserInviteFromOrg) Hash() []byte {
   sha_512 := sha512.New()
-  sha_512.Write([]byte(i.InviteToken + i.NodeUrl + i.Login + i.EMail + i.Role + i.UpdatedAt.String()))
+  sha_512.Write([]byte(i.InviteToken + i.Version + i.NodeUrl + i.Login + i.EMail + i.Role + i.UpdatedAt.String()))
   return sha_512.Sum(nil)
 }
 
@@ -124,12 +127,12 @@ func (i *ReqUserInviteFromOrg) Unpack(msg string) bool {
  */
 
 func NewReqUserRegisterToOrg() (*ReqUserRegisterToOrg) {
-  return &ReqUserRegisterToOrg{}
+  return &ReqUserRegisterToOrg{Version: "1"}
 }
 
 func (i *ReqUserRegisterToOrg) Hash() []byte {
   sha_512 := sha512.New()
-  sha_512.Write([]byte(i.InviteToken + i.NodeUrl + i.Login + i.EMail + i.DisplayName + 
+  sha_512.Write([]byte(i.InviteToken + i.Version + i.NodeUrl + i.Login + i.EMail + i.DisplayName + 
                        i.FirstName + i.MiddleName + i.LastName + i.Role +
                        i.Country + i.Locality))
   sha_512.Write(i.PubKey)
