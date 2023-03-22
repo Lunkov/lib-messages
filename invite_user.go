@@ -51,6 +51,14 @@ type ReqUserRegisterToOrg struct {
   Sign          []byte          `json:"sign"`
 }
 
+type UserRegister struct {
+  Version       string          `json:"version"`
+
+  Cert          []byte          `json:"cert"`
+  PrivKey       []byte          `json:"privkey"`
+  Sign          []byte          `json:"sign"`
+}
+
 /*
  * DBUserInvite
  * 
@@ -139,3 +147,14 @@ func (i *ReqUserRegisterToOrg) Hash() []byte {
   sha_512.Write(i.PubKey)
   return sha_512.Sum(nil)
 }
+
+/*
+ * UserRegister
+ * 
+ */
+ 
+func NewUserRegister() (*UserRegister) {
+  return &UserRegister{Version: "1"}
+}
+
+
