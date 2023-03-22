@@ -65,6 +65,7 @@ func (i *DBUserInvite) Init(token string, login string, email string, role strin
   i.InviteToken = token
   i.Login = login
   i.EMail = email
+  i.Role = role
   i.UpdatedAt = time.Now()
 }
 
