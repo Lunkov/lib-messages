@@ -14,7 +14,7 @@ type DBUserInvite struct {
   InviteToken   string          `json:"token"       gorm:"column:invite_token"`
   Login         string          `json:"login"       gorm:"column:login"`
   Role          string          `json:"role"        gorm:"column:role"`
-  EMail         string          `json:"email"       gorm:"column:email,index:idx_email,unique"`
+  EMail         string          `json:"email"       gorm:"index:idx_email,unique;column:email"`
   UpdatedAt     time.Time       `json:"updated_at"  gorm:"column:updated_at"`
   OrgSign     []byte            `json:"org_sign"    gorm:"column:org_sign"`
 }
