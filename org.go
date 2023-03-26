@@ -8,6 +8,7 @@ type OrgInfo struct {
   Name          string          `json:"name"`
   Logo          string          `json:"logo"`
   URL           string          `json:"url"`
+  MainCoin      string          `json:"maincoin"`
 }
 
 func NewOrgInfo() *OrgInfo {

@@ -8,7 +8,7 @@ import (
 func TestInviteUser(t *testing.T) {
 	
   dbui := NewDBUserInvite()
-  dbui.Init("token", "user", "login@domain.org")
+  dbui.Init("token", "user", "login@domain.org", "admin")
   
   dbui.Hash()
      
@@ -17,7 +17,7 @@ func TestInviteUser(t *testing.T) {
   assert.Equal(t, 64, len(uio.Hash()))
   
   msg := uio.Pack()
-  assert.Equal(t, 244, len(msg))
+  assert.Equal(t, 284, len(msg))
   
   uio2 := NewReqUserInviteFromOrg()
   uio2.Unpack(msg)
@@ -32,7 +32,7 @@ func BenchmarkMutexMap(b *testing.B) {
   b.ResetTimer()
 
   dbui := NewDBUserInvite()
-  dbui.Init("token", "user", "login@domain.org")
+  dbui.Init("token", "user", "login@domain.org", "admin")
   
   dbui.Hash()
      

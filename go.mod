@@ -4,6 +4,7 @@ go 1.19
 
 require (
 	github.com/golang/glog v1.1.0
+	github.com/google/uuid v1.3.0
 	github.com/lib/pq v1.10.7
 )
 
