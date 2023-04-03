@@ -5,12 +5,16 @@ import (
 )
 
 type Balance struct {
-  Address              string
-  Coin                 string
-  Balance              uint64
-  UnconfirmedBalance   uint64
-  TotalReceived        uint64
-  TotalSent            uint64
+  Address              string      `gorm:"column:address;type:string;primary_key"`
+  Coin                 string      `gorm:"column:coin;type:string"`
+  Balance              uint64      `gorm:"column:balance"`
+  UnconfirmedBalance   uint64      `gorm:"column:unconfirmed_balance"`
+  TotalReceived        uint64      `gorm:"column:total_received"`
+  TotalSent            uint64      `gorm:"column:total_sent"`
+  
+  //LastTransaction      string      `gorm:"column:last_transaction"`
+  //UpdatedAt            time.Time   `gorm:"column:updated_at;type:timestamp with time zone"`
+  //Hash                 []byte      `gorm:"column:hash"`
 }
 
 func NewBalance() *Balance {
