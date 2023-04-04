@@ -7,7 +7,6 @@ import (
   "crypto/sha512"
   
   "encoding/gob"
-  "encoding/base64"
 )
 
 type TokenTransaction struct {
@@ -39,21 +38,17 @@ func (t *TokenTransaction) hash() []byte {
   return sha_512.Sum(nil)
 }
 
-func (t *TokenTransaction) Pack() string {
+func (t *TokenTransaction) Serialize() []byte {
   var buff bytes.Buffer
   encoder := gob.NewEncoder(&buff)
   encoder.Encode(t)
-  return base64.StdEncoding.EncodeToString(buff.Bytes())
+  return buff.Bytes()
 }
 
-func (t *TokenTransaction) Unpack(msg string) bool {
-  input, err := base64.StdEncoding.DecodeString(msg)
-  if err != nil {
-    return false
-  }
-  buf := bytes.NewBuffer(input)
+func (t *TokenTransaction) Deserialize(msg []byte) bool {
+  buf := bytes.NewBuffer(msg)
   decoder := gob.NewDecoder(buf)
-  err = decoder.Decode(t)
+  err := decoder.Decode(t)
   if err != nil {
     return false
   }
