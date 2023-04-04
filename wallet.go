@@ -4,6 +4,12 @@ import (
   "sync"
 )
 
+type ReqGetBalance struct {
+  Address              string      `gorm:"column:address;type:string;primary_key"`
+  Sign                 []byte      `gorm:"column:sign"`
+  PublicKey            []byte      `gorm:"column:public_key"`
+}
+
 type Balance struct {
   Address              string      `gorm:"column:address;type:string;primary_key"`
   Coin                 string      `gorm:"column:coin;type:string"`
