@@ -57,6 +57,27 @@ func NewBalance() *Balance {
   return &Balance{}
 }
 
+func (b *Balance) Pack() string {
+  var buff bytes.Buffer
+  encoder := gob.NewEncoder(&buff)
+  encoder.Encode(b)
+  return base64.StdEncoding.EncodeToString(buff.Bytes())
+}
+
+func (b *Balance) Unpack(msg string) bool {
+  input, err := base64.StdEncoding.DecodeString(msg)
+  if err != nil {
+    return false
+  }
+  buf := bytes.NewBuffer(input)
+  decoder := gob.NewDecoder(buf)
+  err = decoder.Decode(b)
+  if err != nil {
+    return false
+  }
+  return true
+}
+
 type Balances struct {
   a     []*Balance
   mu    sync.RWMutex
