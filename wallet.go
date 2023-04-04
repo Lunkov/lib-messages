@@ -2,12 +2,42 @@ package messages
 
 import ( 
   "sync"
+
+  "bytes"
+  
+  "encoding/gob"
+  "encoding/base64"
 )
 
 type ReqGetBalance struct {
-  Address              string      `gorm:"column:address;type:string;primary_key"`
-  Sign                 []byte      `gorm:"column:sign"`
-  PublicKey            []byte      `gorm:"column:public_key"`
+  Address              string      `json:"address"      gorm:"column:address;type:string;primary_key"`
+  Sign                 []byte      `json:"sign"         gorm:"column:sign"`
+  PublicKey            []byte      `json:"public_key"   gorm:"column:public_key"`
+}
+
+func NewReqGetBalance() *ReqGetBalance {
+  return &ReqGetBalance{}
+}
+
+func (t *ReqGetBalance) Pack() string {
+  var buff bytes.Buffer
+  encoder := gob.NewEncoder(&buff)
+  encoder.Encode(t)
+  return base64.StdEncoding.EncodeToString(buff.Bytes())
+}
+
+func (t *ReqGetBalance) Unpack(msg string) bool {
+  input, err := base64.StdEncoding.DecodeString(msg)
+  if err != nil {
+    return false
+  }
+  buf := bytes.NewBuffer(input)
+  decoder := gob.NewDecoder(buf)
+  err = decoder.Decode(t)
+  if err != nil {
+    return false
+  }
+  return true
 }
 
 type Balance struct {
