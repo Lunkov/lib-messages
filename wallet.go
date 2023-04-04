@@ -6,7 +6,6 @@ import (
   "bytes"
   
   "encoding/gob"
-  "encoding/base64"
 )
 
 type ReqGetBalance struct {
@@ -19,21 +18,17 @@ func NewReqGetBalance() *ReqGetBalance {
   return &ReqGetBalance{}
 }
 
-func (t *ReqGetBalance) Pack() string {
+func (t *ReqGetBalance) Serialize() []byte {
   var buff bytes.Buffer
   encoder := gob.NewEncoder(&buff)
   encoder.Encode(t)
-  return base64.StdEncoding.EncodeToString(buff.Bytes())
+  return buff.Bytes()
 }
 
-func (t *ReqGetBalance) Unpack(msg string) bool {
-  input, err := base64.StdEncoding.DecodeString(msg)
-  if err != nil {
-    return false
-  }
-  buf := bytes.NewBuffer(input)
+func (t *ReqGetBalance) Deserialize(msg []byte) bool {
+  buf := bytes.NewBuffer(msg)
   decoder := gob.NewDecoder(buf)
-  err = decoder.Decode(t)
+  err := decoder.Decode(t)
   if err != nil {
     return false
   }
@@ -57,21 +52,17 @@ func NewBalance() *Balance {
   return &Balance{}
 }
 
-func (b *Balance) Pack() string {
+func (b *Balance) Serialize() []byte {
   var buff bytes.Buffer
   encoder := gob.NewEncoder(&buff)
   encoder.Encode(b)
-  return base64.StdEncoding.EncodeToString(buff.Bytes())
+  return buff.Bytes()
 }
 
-func (b *Balance) Unpack(msg string) bool {
-  input, err := base64.StdEncoding.DecodeString(msg)
-  if err != nil {
-    return false
-  }
-  buf := bytes.NewBuffer(input)
+func (b *Balance) Deserialize(msg []byte) bool {
+  buf := bytes.NewBuffer(msg)
   decoder := gob.NewDecoder(buf)
-  err = decoder.Decode(b)
+  err := decoder.Decode(b)
   if err != nil {
     return false
   }
