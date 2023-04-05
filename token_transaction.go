@@ -32,7 +32,7 @@ func (t *TokenTransaction) Init(addressFrom string, addressTo string, coin strin
   t.PublicKey = publicKey
 }
 
-func (t *TokenTransaction) hash() []byte {
+func (t *TokenTransaction) Hash() []byte {
   sha_512 := sha512.New()
   sha_512.Write([]byte(t.AddressFrom + t.AddressTo + t.Coin + strconv.FormatUint(t.Value, 10) + strconv.FormatUint(t.MaxCost, 10) + string(t.PublicKey)))
   return sha_512.Sum(nil)
