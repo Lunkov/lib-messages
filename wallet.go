@@ -9,7 +9,7 @@ import (
 )
 
 type ReqGetBalance struct {
-  Address              string      `json:"address"      gorm:"column:address;type:string;primary_key"`
+  Address              string      `json:"address"      gorm:"column:address;primary_key"`
   Sign                 []byte      `json:"sign"         gorm:"column:sign"`
   PublicKey            []byte      `json:"public_key"   gorm:"column:public_key"`
 }
@@ -36,8 +36,8 @@ func (t *ReqGetBalance) Deserialize(msg []byte) bool {
 }
 
 type Balance struct {
-  Address              string      `gorm:"column:address;type:string;primary_key"`
-  Coin                 string      `gorm:"column:coin;type:string"`
+  Address              string      `gorm:"column:address;primary_key"`
+  Coin                 string      `gorm:"column:coin"`
   Balance              uint64      `gorm:"column:balance"`
   UnconfirmedBalance   uint64      `gorm:"column:unconfirmed_balance"`
   TotalReceived        uint64      `gorm:"column:total_received"`
